@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>Shooter</title>
+  <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-proxy-event-component@2.1.0/dist/aframe-proxy-event-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-super-shooter-kit@1.0.1/dist/aframe-super-shooter-kit.min.js"></script>
+  <script src="https://unpkg.com/aframe-supercraft-loader@3.0.0/dist/aframe-supercraft-loader.min.js"></script>
+  <script src="https://unpkg.com/aframe-supercraft-thing@1.1.0/dist/aframe-supercraft-thing.min.js"></script>
+  <script src="assets/components/enemy.js"></script>
+  <script>
+    AFRAME.registerComponent('click-to-shoot', {
+      init: function () {
+        document.body.addEventListener('mousedown', () => { this.el.emit('shoot'); });
+      }
+    });
+  </script>
+</head>
+<body>
+  <a-scene>
+    <a-camera>
+      <a-cursor></a-cursor>
+    </a-camera>
+    <a-assets>
+      <a-asset-item id="soundSong" src="assets/sounds/audiomirage__sidewalk-tango.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="soundEnemy1" src="assets/sounds/shoot.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="soundExplosion" src="assets/sounds/explosion.ogg" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="soundShoot" src="assets/sounds/shoot.wav" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="bullseye" src="assets/models/Person.gltf" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="bullseye1" src="assets/models/Person.gltf" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="bullseye2" src="assets/models/Person_Aiming.gltf" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="collision" src="assets/models/Lampost.gltf" response-type="arraybuffer"></a-asset-item>
+      <a-asset-item id="collision2" src="assets/models/Trash_Compartiment.gltf" response-type="arraybuffer"></a-asset-item>
+    </a-assets>
+
+    <!-- Theme song, starts on `playmusic` game start event. -->
+    <a-entity id="music" sound="src: #soundSong; loop: true; on: playmusic"></a-entity>
+
+    <!-- Explosion sound. -->
+    <a-entity id="commonExplosion" sound="src: #soundExplosion; poolSize: 15" position="0 1.6 0"></a-entity>
+
+    <!-- Hidden Supercraft container of objects. We pick out objects using `supercraft-thing`. -->
+    <a-entity id="supercraftThings" supercraft-loader="name: probable-representative; includeEnvironment: false" visible="false"></a-entity>
+
+    <!-- Street. -->
+    <a-entity gltf-model="#collision" position="5.5 0.5 -3"></a-entity>
+    <a-entity gltf-model="#collision" position="5.5 0.5 3"></a-entity>
+    <a-entity gltf-model="#collision" position="5.5 0.5 9"></a-entity>
+    <a-entity gltf-model="#collision" position="-5.5 0.5 -3"></a-entity>
+    <a-entity gltf-model="#collision" position="-5.5 0.5 3"></a-entity>
+    <a-entity gltf-model="#collision" position="-5.5 0.5 9"></a-entity>
+    <a-entity gltf-model="#collision2" position="1 0 -3"></a-entity>
+    <a-entity gltf-model="#collision2" rotation="0 180 0" position="0 0 4"></a-entity>
+    <a-entity gltf-model="#collision2" rotation="0 180 0" position="3 0 2"></a-entity>
+    <a-plane color="#363636"  height="100" width="100" rotation="-90 0 0" position="0 0.3 0"></a-plane>
+    <a-box height="100" width="20" rotation="-90 0 0" position="15 0.3.1 0"></a-box>
+    <a-box height="100" width="20" rotation="-90 0 0" position="-15 0.3.1 0"></a-box>
+    <a-box height="10" width="100" rotation="-180 0 0" position="18 0.3.1 -12"></a-box>
+    <a-box height="500" width="20"rotation="0 90 0" position="-8 0 0"></a-box>
+    <a-box height="500" width="20"rotation="0 90 0" position="8 0 0"></a-box>
+    <a-box height="500" width="20"rotation="0 90 0" position="8 0 10"></a-box>
+
+
+    <!-- Enemies. -->
+    <a-entity id="enemy14" gltf-model="#bullseye" class="enemy" enemy="type:2" position="1.5 -0.5 -4" target="static: false">
+      <a-entity sound="src: #soundEnemy1; poolSize: 5"></a-entity>
+    </a-entity>
+    <a-entity id="enemy14" gltf-model="#bullseye2" class="enemy" enemy="type:2" position="0 -0.5 -5" target="static: false">
+      <a-entity sound="src: #soundEnemy1; poolSize: 5"></a-entity>
+    </a-entity>
+    <a-entity id="enemy14" gltf-model="#bullseye2" class="enemy" enemy="type:2" position="0 -0.5 5" rotation="0 180 0" target="static: false">
+      <a-entity sound="src: #soundEnemy1; poolSize: 5"></a-entity>
+    </a-entity>
+    <a-entity id="enemy14" gltf-model="#bullseye" class="enemy" enemy="type:2" position="1 -0.5 5" rotation="0 180 0" target="static: false">
+      <a-entity sound="src: #soundEnemy1; poolSize: 5"></a-entity>
+    </a-entity>
+    <a-entity id="enemy14" gltf-model="#bullseye" class="enemy" enemy="type:2" position="3 -0.5 2.5" rotation="0 180 0" target="static: false">
+      <a-entity sound="src: #soundEnemy1; poolSize: 5"></a-entity>
+    </a-entity>
+    <!--
+      EXPLOSIONS created in Supercraft.
+      Link them with enemies in the enemy component using ID.
+    -->
+    <a-entity id="enemy14expl" supercraft-thing="from: #supercraftThings; name: thing31; resetOrigin: true; ignorePosition: true"></a-entity>
+
+    <!-- aframe-super-shooter-kit `bullet` template. -->
+    <a-entity bullet="name: normal; speed: 30.0; poolSize: 20"
+              geometry="primitive: icosahedron; radius: 0.1;"
+              material="color: #FF7; emissiveIntensity: 0.5; emissive: #FF7"></a-entity>
+
+    <!-- START message. Start game when shot at using `proxy-event` to message other entities. -->
+    <a-entity id="start"
+              gltf-model="#bullseye2"
+              target
+              proxy-event__startenemies="event: die; to: .enemy; as: run"
+              proxy-event__playmusic="event: die; to: #music; as: playmusic"
+              position="0 0 -2">
+     </a-entity>
+    <!--
+      Right GUN controller built in Supercraft with
+      aframe-super-shooter-kit `shooter` component.
+    -->
+    <a-entity
+      id="rightGun"
+      vive-controls="hand: right; model: false;"
+      oculus-touch-controls="hand: right; model: false;"
+      daydream-controls="hand: right; model: false"
+      proxy-event__daydream="event: trackpaddown; to: #rightGun; as: triggerdown"
+      proxy-event__shoot="event: triggerdown; to: #rightGun; as: shoot"
+      proxy-event__shootsound="event: triggerdown; to: #soundShootRight; as: shoot"
+      shooter="bulletTypes: normal; activeBulletType: normal">
+      <a-entity supercraft-thing="from: #supercraftThings; name: thing30; resetOrigin: true; ignorePosition: true" rotation="0 5 0" position="0 0 -0.03"></a-entity>
+      <a-entity id="soundShootRight" sound="src: #soundShoot; poolSize: 10; on: shoot; volume: 0.6"></a-entity>
+    </a-entity>
+
+    <!-- Left controller. -->
+    <a-entity
+      id="leftGun"
+      vive-controls="hand: left; model: false"
+      oculus-touch-controls="hand: left; model: false"
+      daydream-controls="hand: left; model: false"
+      proxy-event__daydream="event: trackpaddown; to: #leftGun; as: triggerdown"
+      proxy-event__shoot="event: triggerdown; to: #leftGun; as: shoot"
+      proxy-event__shootsound="event: triggerdown; to: #soundShootLeft; as: shoot"
+      shooter="bullets: normal; activeBulletType: normal">
+      <a-entity supercraft-thing="from: #supercraftThings; name: thing30; resetOrigin: true; ignorePosition: true" rotation="0 5 0" position="0 0 -0.03"></a-entity>
+      <a-entity id="soundShootLeft" sound="src: #soundShoot; poolSize: 10; on: shoot; volume: 0.6"></a-entity>
+    </a-entity>
+
+    <a-camera shooter="bullets: normal; activeBulletType: normal" click-to-shoot></a-camera>
+
+    <!-- Environment. -->
+ <a-entity environment="preset: tron; skyColor: #17acbd; lighting: point; lightPosition: -1.2 1 -0.55; playArea: 0.89; ground: hills; dressingColor: #576037; dressingScale: 0.13;"></a-entity>
+    <a-entity light="color:#A2A5AF; intensity:0.1" position="-1.93 2.781 -2.322"></a-entity>
+  </a-scene>
+
+
+  </a>
+  </style>
+</body>
